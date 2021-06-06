@@ -15,7 +15,7 @@ export default makeStyles((theme) => ({
   image: {
     marginLeft: '15px',
   },
-  [theme.breakpoints.down('sm')]: {
+  [theme.breakpoints.down('sm')]: { // run the mainContainer, ONLY for the devices tnat are SMALL
     mainContainer: {
       flexDirection: 'column-reverse'
     }
