@@ -6,25 +6,30 @@ import FileBase from 'react-file-base64';
 import useStyles from './styles';
 import { createPost, updatePost } from '../../actions/posts';
 
-const Form = ({ currentId }) => {
+const Form = ({ currentId, setCurrentId }) => {
   const [postData, setPostData] = useState({ creator: '', title: '', message: '', tags: '', selectedFile: '' });
   const post = useSelector((state) => (currentId ? state.posts.find((message) => message._id === currentId) : null));
   const dispatch = useDispatch();
   const classes = useStyles();
 
   useEffect(() => {
-    if (post) setPostData(post);
+    if (post) setPostData(post); // populate empty setPostData with data of the post
   }, [post]);
-
-  const clear = () => {
-    setPostData({ creator: '', title: '', message: '', tags: '', selectedFile: '' });
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // prevent a browser reload/refresh
 
+    if (currentId) { // if we have the currentId (if currentId is not null(), dispatch updatePost
+      dispatch(updatePost(currentId, postData));
+    } else {
       dispatch(createPost(postData));
- 
+    }
+    clear() // clear the data from input Form after creating/editing Post
+  };
+
+  const clear = () => {
+    setCurrentId(null)
+    setPostData({ creator: '', title: '', message: '', tags: '', selectedFile: '' });
   };
 
   return (
