@@ -25,6 +25,17 @@ module.exports = {
       res.status(409).json({ message: error.message })
     }
   },
+  getPost: async (req, res) => {
+    const { id } = req.params;
+
+    try {
+      const post = await PostMessage.findById(id);
+
+      res.status(200).json(post);
+    } catch (error) {
+      res.status(404).json({ message: error.message });
+    }
+  },
   updatePost: async (req, res) => {
     const { id: _id } = req.params
     const post = req.body
